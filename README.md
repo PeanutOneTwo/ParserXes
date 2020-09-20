@@ -1,11 +1,19 @@
-
--Run configuration: Mettiamo screen di come settare la configurazione e del risultato prodotto
-
-
+ParserXES
+========================
 
 Introduzione
 --------
-ParserXES è stato sviluppato in seguito alla necessità di avere un tool che permettesse di caricare all'interno di un database file di notevoli dimensioni. Il tool è stato sviluppato in java utilizzando il modulo [SparkSQL](https://spark.apache.org/sql/) di Apache Spark. L'utilizzo di questo framework ha permesso sia di migliorare notevolmente le prestazioni del tool all'aumentare del carico di lavoro, sia di utilizzare strutture dati che si prestano molto bene al focus del progetto. 
+ParserXES è stato sviluppato in seguito alla necessità di avere un tool che permettesse di *caricare all'interno di un database file di notevoli dimensioni*. Il tool è stato sviluppato in java utilizzando il modulo **[SparkSQL](https://spark.apache.org/sql/) di Apache Spark**. L'utilizzo di questo framework ha permesso sia di migliorare notevolmente le prestazioni del tool all'aumentare del carico di lavoro, sia di utilizzare strutture dati che si prestano molto bene al focus del progetto. 
+
+Versioni Librerie
+--------
+
+*  **Spark** : spark-core_2.12-3.0.0-preview
+
+*  **Java**: jdk-13.0.1
+
+*  **Scala**: scala-library-2.12.10
+
 
 File xes
 --------
@@ -19,11 +27,11 @@ For other informations, you can go [here](https://research.tue.nl/en/publication
 
 Struttura del codice
 --------
-Il codice si compone principalmente in due sezioni: 
+Il codice si compone principalmente in **due sezioni**: 
 
-* Nella prima sezione, si prenderanno tutti gli attributi della tag "trace" e "armonizzeremo" la loro struttura cosi da poterle caricare nella tabella "trace" del database indicato. 
+* Nella prima sezione, si prenderanno tutti gli attributi della tag **"trace"** e "armonizzeremo" la loro struttura cosi da poterle caricare nella tabella "trace" del database indicato. 
 
-* Nella seconda, si ripeterà lo stesso procedimento della prima sezione applicato sulla tag "event" e caricato all'interno della tabella "event". 
+* Nella seconda, si ripeterà lo stesso procedimento della prima sezione applicato sulla tag **"event"** e caricato all'interno della tabella "event". 
 
 
 ![Schema armonizzazione](https://github.com/PeanutOneTwo/ParserXes/blob/master/images/schemaarmonizzazione.PNG)
@@ -32,9 +40,9 @@ Run Configuration
 --------
 Bisogna passare due parametri:
  
- * Il path del database
+ * **Il path del database**
  
- * Il path del file
+ * **Il path del file**
  
  ![Esempio di Run configuration](https://github.com/PeanutOneTwo/ParserXes/blob/master/images/Run%20configuration.PNG)
 
