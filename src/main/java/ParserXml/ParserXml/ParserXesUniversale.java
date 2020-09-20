@@ -46,8 +46,9 @@ public class ParserXesUniversale {
     	
         
         /*
-         * Passare come primo argomento l'url del db
-         * Il secondo il file
+         *  Need to pass two args: 
+         *  1: DbUrl
+         *  2: Filepath
          */
     	
 	    long Tempo1;
@@ -64,7 +65,6 @@ public class ParserXesUniversale {
             connectionProperties.put("user", "root");
             connectionProperties.put("password", "");   
     
-            
             
     	Boolean Intero =  false;
     	Boolean Stringa =  false;
@@ -97,11 +97,9 @@ public class ParserXesUniversale {
       
 
       /*
-       * In questa prima fase prendiamo il file e lo carichiamo all'interno del dataset, prendendo come tag principale la trace, dato che le informaioni sulla tag log non ci interessano.  
-       * Ad ogni nuovo dataset creato andiamo a stampare il suo schema cosi da far capire i passaggi. 
+       * Carichiamo il file e stabigliamo come tag principale "trace". Teniamo conto che le informazioni contenute nelle tag "log" non ci interessano.  
+       * Ad ogni nuova modifica del dataset, si farà il printschema per capire meglio le modifiche apportate 
        */
-
-      //TODO 
       
       
       
@@ -119,19 +117,12 @@ public class ParserXesUniversale {
       /*
        * 
        * 
-       * Definiamo delle variabili booleane che servono da flag per capire se un determinato attributo sia presente all'interno dello schema. 
-       * Nella seconda parte, per ogni attributo, controlliamo il tipo di struttura. Se �  un array lo explodiamo senn� prendiamo i vari parametri singolarmente. 
-       * Questo procedimento serve per armonizzare la struttura e rendere pi� facile l'inserimento su database. 
+       * Le variabili booleane servono per capire se l'attributo è presente all'interno della struttura del file.  
+       * Una volta confermato che l'attributo è presente, controllo il tipo di struttura e nel caso sia di tipo array, lo scompongo con la funzione explode() 
+       * Questo procedimento serve per armonizzare la struttura e rendere pi� facile l'inserimento sul database. 
        * 
        */
-          
-      
-      /*
-       * Definisco delle variabili booleane che servono per capire la presenza di determinati attributi all'interno del file. Cosi facendo posso fare gli if necessari per armonizzare la struttura. 
-       */
-      
-      
-      
+               
       
       Intero =  checkAttributes(dftrace, "int"); 
       Stringa =  checkAttributes(dftrace, "string"); 
@@ -220,6 +211,7 @@ public class ParserXesUniversale {
 		
 	}
     
+    
     Dataset<Row> tracelog =  datasetpulito; 
     
     if (Stringa) {
@@ -273,20 +265,10 @@ public class ParserXesUniversale {
       //---------------------------------------------------Fase event------------------------------------
       
      /*
-      * In questa fase, ripetiamo lo stesso procedimento fatto per l'attributo trace. Controlliamo tutte le tipologie di attributo e semplifichiamo la struttura.  
-      * Penso che all'interndo dell'attributo trace ci sia sempre una stringa che me lo identifica
-      * 
-      * Molto probabilmente dobbiamo fare le stesse operazioni che abbiamo fatto su trace. Noi non sappiamo quanti tipologie di attributi abbiamo. Quindi dobbiamo analizzarli bene o male tutti quanti. 
-      * 
-      * Il problema sta che devo mantenere l'innesto senn� perdo le informazioni relative alla traccia. Ho creato un dataset che contiene tutte le stringhe della traccia che contiene tutti gli eventi. 
-      * Non riesco a capire come scoppiare l'array contenuto all'interno del dataset senza che sputtani tutta la struttura. 
-      * 
-      * 
-      * Dividiamo il problema in sottoprobemi: 
-      * 	-Abbiamo pi� tipi di attributi che possono essere presenti all'interno di event. Sicuramente string ci sar�, ma gli altri devo controllarli per forza
-      * 	-Questi attributi possono essere degli array e devono essere scoppiati, perch� senn� non riesco ad accedere ai loro campi. Inoltre queste stringhe contengono sia i valori che le chiavi e quest'ultime ne ho bisogno per l'intestazione
-      * 	della tabella sql.
-      * 
+      * In questa fase, ripeto lo stesso procedimento fatto per la tag "trace". 
+      * Controllo tutte le tipologie di attributo e semplifico la struttura.  
+      * Non sappiamo quanti tipologie di attributi abbiamo. Quindi devo analizzarli tutti quanti. 
+      * Ho creato un dataset che contiene tutte le stringhe della traccia che contiene tutti gli eventi. 
       * 
       */
 
@@ -317,7 +299,7 @@ public class ParserXesUniversale {
 	
 	
 	/*
-	 * In questa parte controlliamo se gli attributi sono degli array. Se lo sono gli scoppiamo cosi da avere delle strutture facili da accedere.
+	 * In questa parte controllo se gli attributi sono degli array.
 	 */
     
     if (StringaEvent) {
@@ -388,7 +370,7 @@ public class ParserXesUniversale {
    
 
     /*
-     * In questa parte andiamo a prendere la coppia chiave valore  degli attributi.
+     * In questa parte vado a prendere la coppia chiave valore  degli attributi.
      */
     
     Dataset<Row> traceeventlog =  DsSupporto; 
@@ -435,15 +417,11 @@ public class ParserXesUniversale {
     traceeventlog.printSchema();
 
     
-   
-
-    
     /*
-     * In questa parte, cerchiamo di dare una riordinata alla montagna di dati che abbiamo. Ipotizziamo che gli eventi abbiano pochi attributi e che sono ripetuti nella stessa struttura. 
+     * In questa parte, andrò a dare una riordinata alla montagna di dati che abbiamo. 
+     * Ipotizziamo che gli eventi abbiano pochi attributi e che sono ripetuti nella stessa struttura. 
      * Questo ci permette di utilizzare un metodo ricorsivo per tutti gli attributi e riuscire a minimizzare il numero degli inserimenti sul database, che nel caso peggiore sarebbero aumentati
      * in base al numero di attributi che ciascun evento ha. 
-     * 
-     * Purtroppo non so per quale motivo, se lascio fare questo pezzo di codice, il codice non v� pi� o comunque diventa troppo pesante da poterlo gestire. 
      * 
      */
     
@@ -451,6 +429,7 @@ public class ParserXesUniversale {
     Dataset<Row> eventids = traceeventlog; 
     Dataset<Row> traceIDColumnsDataset =  traceeventlog.select(traceeventlog.col("_value")).distinct(); 
     Dataset<Row> datasetpulitissimo =  traceeventlog.select(traceeventlog.col("_value")).distinct();
+    
     
     /*
      * TEST: Il with column funziona un pò come cazzo gli pare. Non vuole gli stessi nomi ma la stessa struttura
