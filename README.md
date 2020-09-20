@@ -1,7 +1,4 @@
-Schema readme
--Abstract: spieghiamo cosafà in linea generale e il perchè è stato sviluppato
--File .xes: Spieghiamo cosa sono e linkiamo la pagina dell'università di Eindhoven
--Parser: Struttura del software 
+
 -Run configuration: Mettiamo screen di come settare la configurazione e del risultato prodotto
 
 
@@ -23,6 +20,22 @@ For other informations, you can go [here](https://research.tue.nl/en/publication
 Struttura del codice
 --------
 Il codice si compone principalmente in due sezioni: 
-*Nella prima sezione, si prenderanno tutti gli attributi della tag "trace" e "armonizzeremo" la loro struttura cosi da poterle caricare nella tabella "trace" del database indicato. 
-*Nella seconda, si ripeterà lo stesso procedimento della prima sezione applicato sulla tag "event" e caricato all'interno della tabella "event". 
+
+* Nella prima sezione, si prenderanno tutti gli attributi della tag "trace" e "armonizzeremo" la loro struttura cosi da poterle caricare nella tabella "trace" del database indicato. 
+
+* Nella seconda, si ripeterà lo stesso procedimento della prima sezione applicato sulla tag "event" e caricato all'interno della tabella "event". 
+
+
 ![Schema armonizzazione](https://github.com/PeanutOneTwo/ParserXes/blob/master/images/schemaarmonizzazione.PNG)
+
+Run Configuration
+--------
+Bisogna passare due parametri:
+ 
+ * Il path del database
+ 
+ * Il path del file
+ 
+ ![Esempio di Run configuration](https://github.com/PeanutOneTwo/ParserXes/blob/master/images/Run%20configuration.PNG)
+
+
