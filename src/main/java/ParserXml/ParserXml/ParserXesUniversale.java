@@ -213,7 +213,7 @@ public class ParserXesUniversale {
     
     
     Dataset<Row> tracelog =  datasetpulito; 
-    
+       
     if (Stringa) {
 		tracelog = tracelog.withColumn("traceString_key", datasetpulito.col("String._key")); 
 		tracelog = tracelog.withColumn("traceString_value", datasetpulito.col("String._value")); 
@@ -243,6 +243,7 @@ public class ParserXesUniversale {
 		tracelog = tracelog.withColumn("TraceDate_value", datasetpulito.col("Date._value")); 
 		tracelog = tracelog.drop("Date");
 	}
+    
     
     tracelog =  tracelog.drop("event"); 
     
@@ -374,12 +375,15 @@ public class ParserXesUniversale {
      */
     
     Dataset<Row> traceeventlog =  DsSupporto; 
+        
+    
     
     if (StringaEvent) {
 		traceeventlog = traceeventlog.withColumn("EventString_key", DsSupporto.col("EventString._key")); 
 		traceeventlog =  traceeventlog.withColumn("EventString_value", DsSupporto.col("EventString._value")); 
 		traceeventlog =  traceeventlog.drop("EventString"); 
 	}
+
     
     if (DateEvent) {
 		traceeventlog = traceeventlog.withColumn("EventDate_key", DsSupporto.col("EventDate._key")); 
@@ -411,9 +415,10 @@ public class ParserXesUniversale {
 		traceeventlog =  traceeventlog.drop("EventBoolean"); 
 		
 	}
+	
       
 
-    System.out.println("SCHEMA PULITO DAGLI ARRAY");
+    System.out.println("SCHEMA NO ARRAY");
     traceeventlog.printSchema();
 
     
@@ -426,22 +431,11 @@ public class ParserXesUniversale {
      */
     
     
-    Dataset<Row> eventids = traceeventlog; 
-    Dataset<Row> traceIDColumnsDataset =  traceeventlog.select(traceeventlog.col("_value")).distinct(); 
-    Dataset<Row> datasetpulitissimo =  traceeventlog.select(traceeventlog.col("_value")).distinct();
-    
+    Dataset<Row> eventids = traceeventlog;     
     
     /*
      * TEST: Il with column funziona un pò come cazzo gli pare. Non vuole gli stessi nomi ma la stessa struttura
-     * 
-     * Purtroppo non è possibile riuscire a fare un inserimento pulito di tutto il file poichè quando si và a fare il join, si andrebbe a moltiplicare per troppe volte il prodotto. 
-     * Esistono due possibili soluzioni a questo problema: 
-     *  -Per ogni nome dell'attributo stringa, si fà il join cosi da avere un ordinamento   e poi inserire la colonna in un dataset che contiene inizialmente solo i traceID e poi man manco anche le colonne dei vari attributi. 
-     *  Il problema di questa soluzione è che il metodo withcolumn crea problemi che non riesco a risolvere. 
-     *  
-     *  -Si propone dei join multipli. Questa soluzione ha due principali problemi: il primo di natura computazionale a grandi quantità di attributi, il secondo richiede di salvarsi tutti i vari valori degli attributi
-     */
-    
+     *         
     /*
     if (StringaEvent) {
     	
@@ -530,7 +524,7 @@ public class ParserXesUniversale {
     
     
     
-	System.out.println("SCHEMA finale evento");
+	System.out.println("SCHEMA FINALE EVENTO");
 	eventids.printSchema();
 	
 	
@@ -600,4 +594,25 @@ public class ParserXesUniversale {
     public static String escapeStringForMySQL(String s) {
         return s.replaceAll(":", "\\:");
     }
+    
+    
+    
+    
+    public static void addnewcolumnevent (boolean col, String column, Dataset<Row> dsfinal, Dataset<Row> supp) {
+        if (col) {
+            dsfinal = dsfinal.withColumn(column+"_key", supp.col(column+"._key")); 
+            dsfinal =  dsfinal.withColumn(column+"_value", supp.col(column+"._value")); 
+            dsfinal =  dsfinal.drop(column); 
+        }
+    }
+    
+    //TODO da migliorare
+    public static void addnewcolumntrace (boolean col, String columnfinal, String columnstart,  Dataset<Row> dsfinal, Dataset<Row> supp) {
+        if (col) {
+            dsfinal = dsfinal.withColumn(columnfinal+"_key", supp.col(columnstart+"._key")); 
+            dsfinal =  dsfinal.withColumn(columnfinal+"_value", supp.col(columnstart+"._value")); 
+            dsfinal =  dsfinal.drop(columnstart); 
+        }
+    }
+    
 }
