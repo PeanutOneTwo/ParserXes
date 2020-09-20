@@ -1,11 +1,12 @@
 ParserXES
 ========================
 
-Introduzione
---------
-ParserXES è stato sviluppato in seguito alla necessità di avere un tool che permettesse di *caricare all'interno di un database file di notevoli dimensioni*. Il tool è stato sviluppato in java utilizzando il modulo **[SparkSQL](https://spark.apache.org/sql/) di Apache Spark**. L'utilizzo di questo framework ha permesso sia di migliorare notevolmente le prestazioni del tool all'aumentare del carico di lavoro, sia di utilizzare strutture dati che si prestano molto bene al focus del progetto. 
+Introduction
+-------- 
+ParserXES was developed following the need to have a tool *that would allow you to load large files into a database*. The tool was developed in java using the **Apache Spark [SparkSQL](https://spark.apache.org/sql/) module**. The use of this framework has allowed both to significantly improve the performance of the tool as the workload increases, and to use data structures that lend themselves very well to the focus of the project.
 
-Versioni Librerie
+
+Library Versions
 --------
 
 *  **Spark** : spark-core_2.12-3.0.0-preview
@@ -15,7 +16,7 @@ Versioni Librerie
 *  **Scala**: scala-library-2.12.10
 
 
-File xes
+Xes File
 --------
 XES is an XML-based standard for event logs. Its purpose is to provide a generally-acknowledged format for the interchange of event log data between tools and application domains. Its primary purpose is for process mining, i.e. the analysis of operational processes based on their event logs. However, XES has been designed to also be suitable for general data mining, text mining, and statistical analysis.
 The UML 2.0 class diagram describes the complete meta-model for the XES standard.
@@ -25,24 +26,26 @@ The UML 2.0 class diagram describes the complete meta-model for the XES standard
 For other informations, you can go [here](https://research.tue.nl/en/publications/xes-standard-definition)
 
 
-Struttura del codice
+
+Code Structure
 --------
-Il codice si compone principalmente in **due sezioni**: 
 
-* Nella prima sezione, si prenderanno tutti gli attributi della tag **"trace"** e "armonizzeremo" la loro struttura cosi da poterle caricare nella tabella "trace" del database indicato. 
+The code is mainly made up of **two sections**:
 
-* Nella seconda, si ripeterà lo stesso procedimento della prima sezione applicato sulla tag **"event"** e caricato all'interno della tabella "event". 
+* In the first section, we will take all the attributes of the **"trace"** tag and "harmonize" their structure so that we can load them into the "trace" table of the database. 
+
+* In the second, we will repeat the same procedure as in the first section applied to the **"event"** tag and loaded into the "event" table. 
 
 
 ![Schema armonizzazione](https://github.com/PeanutOneTwo/ParserXes/blob/master/images/schemaarmonizzazione.PNG)
 
 Run Configuration
 --------
-Bisogna passare due parametri:
+Two parameters must be passed:
  
- * **Il path del database**
+ * **The path to the database**
  
- * **Il path del file**
+ * **the path of the file**
  
  ![Esempio di Run configuration](https://github.com/PeanutOneTwo/ParserXes/blob/master/images/Run%20configuration.PNG)
 
