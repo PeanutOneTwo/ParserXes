@@ -8,7 +8,7 @@ Schema readme
 
 Introduzione
 --------
-Questo parser serve per estrapolare le informazioni contenute all'interno dei file con estensione .xes. Il programma, una volta caricato il file, cerca le tag principali "trace" e "event",  prende il valore dei suoi attibuti e li inserisce all'interno di un database indicato. 
+ParserXES è stato sviluppato in seguito alla necessità di avere un tool che permettesse di caricare all'interno di un database file di notevoli dimensioni. Il tool è stato sviluppato in java utilizzando il modulo [SparkSQL](https://spark.apache.org/sql/) di Apache Spark. L'utilizzo di questo framework ha permesso sia di migliorare notevolmente le prestazioni del tool all'aumentare del carico di lavoro, sia di utilizzare strutture dati che si prestano molto bene al focus del progetto. 
 
 File xes
 --------
@@ -18,3 +18,11 @@ The UML 2.0 class diagram describes the complete meta-model for the XES standard
 ![schemaxes](https://github.com/PeanutOneTwo/ParserXes/blob/master/images/Cattura.PNG)
 
 For other informations, you can go [here](https://research.tue.nl/en/publications/xes-standard-definition)
+
+
+Struttura del codice
+--------
+Il codice si compone principalmente in due sezioni: 
+*Nella prima sezione, si prenderanno tutti gli attributi della tag "trace" e "armonizzeremo" la loro struttura cosi da poterle caricare nella tabella "trace" del database indicato. 
+*Nella seconda, si ripeterà lo stesso procedimento della prima sezione applicato sulla tag "event" e caricato all'interno della tabella "event". 
+![Schema armonizzazione](https://github.com/PeanutOneTwo/ParserXes/blob/master/images/schemaarmonizzazione.PNG)
