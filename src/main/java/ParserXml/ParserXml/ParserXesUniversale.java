@@ -97,7 +97,7 @@ public class ParserXesUniversale {
       
 
       /*
-       * Carichiamo il file e stabigliamo come tag principale "trace". Teniamo conto che le informazioni contenute nelle tag "log" non ci interessano.  
+       * Carichiamo il file e stabiliamo come tag principale "trace". Teniamo conto che le informazioni contenute nella tag "log" non ci interessano.  
        * Ad ogni nuova modifica del dataset, si farà il printschema per capire meglio le modifiche apportate 
        */
       
